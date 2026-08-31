@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest an improvement to templates, PPTX layout, or the agent workflow
+title: "[feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to do that the skill does not support well today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: How should it work?
+    validations:
+      required: true

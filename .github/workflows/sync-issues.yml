@@ -1,0 +1,31 @@
+name: Sync Linear Issues
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every day at 06:00 UTC
+    - cron: "0 6 * * *"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Sync Linear → GitHub
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
+          GITHUB_TOKEN: ${{ secrets.AGENT_GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+          ISSUE_TITLE_PREFIX: "[linear]"
+        run: |
+          if [ -z "$LINEAR_API_KEY" ] || [ -z "$GITHUB_TOKEN" ]; then
+            echo "Missing LINEAR_API_KEY or AGENT_GITHUB_TOKEN secrets — skipping sync."
+            exit 0
+          fi
+          python .github/scripts/sync_linear_to_github.py

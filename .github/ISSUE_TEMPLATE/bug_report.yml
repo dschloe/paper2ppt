@@ -1,0 +1,27 @@
+name: Bug report
+description: Something is broken in deck generation, templates, or build scripts
+title: "[bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. If this came from a Linear issue, include the ID (e.g. `P2S-12`).
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Steps to reproduce and what you expected vs. what you saw.
+    validations:
+      required: true
+  - type: input
+    id: deck
+    attributes:
+      label: Sample deck or paper (optional)
+      placeholder: samples/runs/my-style-afzal-30/deck.md or arXiv URL
+  - type: textarea
+    id: logs
+    attributes:
+      label: Build output / error (optional)
+      render: shell

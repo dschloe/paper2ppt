@@ -5,7 +5,8 @@
   "description": "Cursor skill: academic paper to editable slide decks",
   "scripts": {
     "build:editable": "node scripts/build_editable_pptx.mjs",
-    "create:layout-template": "node scripts/create_layout_template.mjs"
+    "create:layout-template": "node scripts/create_layout_template.mjs",
+    "test": "node --test tests/*.mjs"
   },
   "dependencies": {
     "fast-xml-parser": "^5.11.1",

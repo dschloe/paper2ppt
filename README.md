@@ -458,6 +458,43 @@ Local test & checklist: [`MARKETPLACE.md`](MARKETPLACE.md)
 
 ---
 
+## CI, GitHub Issues & Linear
+
+This repo follows the same automation pattern as [ollama-advisor](https://github.com/dschloe/ollama-advisor):
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| **Test** | push / PR to `main` | `npm test` + sample editable PPTX build |
+| **Notify Linear on Failure** | after **Test** fails | Opens/updates a Linear issue with CI context |
+| **Sync Linear Issues** | daily + manual | Mirrors open Linear issues → GitHub Issues |
+
+### GitHub Actions secrets
+
+| Secret | Required for | Notes |
+|--------|----------------|-------|
+| `LINEAR_API_KEY` | Linear notify + sync | Linear → Settings → API → Personal API keys |
+| `LINEAR_TEAM_ID` | Linear notify + sync | Team UUID in Linear |
+| `AGENT_GITHUB_TOKEN` | Sync only | Fine-grained PAT with Issues read/write on this repo |
+
+Optional repository variable: `LINEAR_LABEL_IDS` (comma-separated label UUIDs for CI-created Linear issues).
+
+### Local commands
+
+```bash
+# Run the same checks as CI
+npm test
+
+# Cursor handoff from a Linear issue (set LINEAR_API_KEY first)
+LINEAR_API_KEY=... LINEAR_TEAM_ID=... python .github/scripts/cursor_prompt.py P2S-12
+
+# Dry-run Linear → GitHub sync
+DRY_RUN=1 LINEAR_API_KEY=... GITHUB_TOKEN=... python .github/scripts/sync_linear_to_github.py
+```
+
+CI failures create a Linear issue titled `[CI] Test failed — dschloe/paper2ppt`. Use `cursor_prompt.py` with that issue ID in Cursor to fix and verify with `npm test`.
+
+---
+
 ## FAQ
 
 **Q. Do I need Python?**  
