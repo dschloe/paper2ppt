@@ -23,19 +23,19 @@ export async function fillPptxGenjs({ slides, theme, outputPath, deckDir = ".", 
   pptx.layout = "LAYOUT_16x9";
   pptx.author = "paper-to-slides";
 
-  for (const slide of slides) {
-    addSlide(pptx, slide, theme, deckDir, skillRoot);
+  for (let i = 0; i < slides.length; i++) {
+    addSlide(pptx, slides[i], theme, deckDir, skillRoot, i + 1, slides.length);
   }
 
   await pptx.writeFile({ fileName: outputPath });
 }
 
-function addSlide(pptx, slide, theme, deckDir, skillRoot) {
+function addSlide(pptx, slide, theme, deckDir, skillRoot, slideNum, totalSlides) {
   const s = pptx.addSlide();
   const bg = slide.isLead ? theme.leadBackground : theme.slideBackground;
   if (bg) s.background = { color: bg };
 
-  const bodyColor = slide.isLead ? "F8FAFC" : theme.bodyColor;
+  const bodyColor = theme.bodyColor;
   const contentY = addTitleBlock(s, pptx, slide, theme);
 
   if (slide.twoColumn) {
@@ -64,6 +64,21 @@ function addSlide(pptx, slide, theme, deckDir, skillRoot) {
   }
 
   if (slide.footer) addFooter(s, slide.footer, theme, slide.isLead);
+  addSlideNumber(s, slideNum, totalSlides, theme);
+}
+
+function addSlideNumber(s, slideNum, totalSlides, theme) {
+  s.addText(String(slideNum), {
+    x: 9.0,
+    y: 5.28,
+    w: 0.45,
+    h: 0.22,
+    fontFace: bodyFont(theme),
+    fontSize: 11,
+    color: theme.subtitleColor || "94A3B8",
+    align: "right",
+    valign: "bottom",
+  });
 }
 
 function addTitleBlock(s, pptx, slide, theme) {
@@ -90,49 +105,54 @@ function addTitleBlock(s, pptx, slide, theme) {
   }
 
   if (slide.isLead) {
-    const titleY = 1.55;
     const leadFontSize = theme.leadTitleSize || 36;
-    const leadTitleH = estimateTextHeight(slide.title, leadFontSize, 42);
+    const leadTitleH = estimateTextHeight(slide.title, leadFontSize, 38);
+    const titleY = 1.15;
+
     s.addText(slide.title, {
       x: 0.5,
       y: titleY,
       w: 9,
-      h: leadTitleH,
+      h: leadTitleH + 0.15,
       fontFace: titleFont(theme),
       fontSize: leadFontSize,
       bold: false,
       color: theme.titleColor,
+      align: "center",
       valign: "top",
     });
 
-    let y = titleY + leadTitleH + 0.55;
+    const authorsY = 3.75;
     if (slide.subtitle) {
       s.addText(slide.subtitle, {
         x: 0.5,
-        y,
+        y: authorsY,
         w: 9,
         h: 0.45,
         fontFace: bodyFont(theme),
         fontSize: theme.subtitleSize,
         color: theme.subtitleColor,
+        align: "center",
         valign: "top",
       });
-      y += 0.5;
     }
+
+    let venueY = authorsY + 0.5;
     for (const line of slide.bullets || []) {
       s.addText(line, {
         x: 0.5,
-        y,
+        y: venueY,
         w: 9,
         h: 0.35,
         fontFace: bodyFont(theme),
         fontSize: (theme.subtitleSize || 18) - 1,
         color: theme.subtitleColor,
+        align: "center",
         valign: "top",
       });
-      y += 0.38;
+      venueY += 0.38;
     }
-    return y;
+    return venueY;
   }
 
   const titleY = 0.45;
@@ -224,12 +244,13 @@ function addImage(s, image, deckDir, skillRoot, x, y, w, h) {
 function addFooter(s, text, theme, isLead) {
   s.addText(text, {
     x: 0.5,
-    y: 5.15,
+    y: 5.1,
     w: 9,
     h: 0.3,
     fontFace: bodyFont(theme),
-    fontSize: 11,
-    color: isLead ? (theme.subtitleColor || "64748B") : theme.subtitleColor || "94A3B8",
+    fontSize: 10,
+    color: theme.subtitleColor || "94A3B8",
+    align: isLead ? "center" : "left",
     valign: "bottom",
   });
 }

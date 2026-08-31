@@ -30,9 +30,9 @@ section h2 {
 section.lead {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: left;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
 }
 
 section.lead h1 {
@@ -40,13 +40,24 @@ section.lead h1 {
   font-size: 52px;
   font-weight: normal;
   line-height: 1.25;
-  margin-bottom: 40px;
+  margin-top: 0.6em;
+  margin-bottom: 0;
   border-bottom: none;
+  text-align: center;
+  width: 100%;
 }
 
 section.lead h2 {
-  margin-top: 0;
-  margin-bottom: 16px;
+  margin-top: 2.2em;
+  margin-bottom: 0.35em;
+  text-align: center;
+  width: 100%;
+}
+
+section.lead p {
+  text-align: center;
+  color: #475569;
+  font-size: 22px;
 }
 
 section ul {
