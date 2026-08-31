@@ -6,15 +6,25 @@ const LAYOUT_RE = /<!--\s*layout:\s*(\S+)\s*-->/;
 
 export function parseDeck(content) {
   let body = content.trim();
+  let refFooter = "";
   if (body.startsWith("---")) {
     const end = body.indexOf("---", 3);
+    const frontmatter = body.slice(3, end);
+    const footerMatch = frontmatter.match(/^footer:\s*(.+)$/m);
+    if (footerMatch) refFooter = stripFooterValue(footerMatch[1].trim());
     body = body.slice(end + 3).trim();
   }
-  return body
+  const slides = body
     .split(/\n---\n/)
     .map((s) => s.trim())
     .filter(Boolean)
     .map(parseSlide);
+  if (!refFooter) refFooter = slides.find((s) => s.footer)?.footer || "";
+  return { slides, refFooter };
+}
+
+function stripFooterValue(value) {
+  return value.replace(/^['"]|['"]$/g, "");
 }
 
 export function parseSlide(raw) {

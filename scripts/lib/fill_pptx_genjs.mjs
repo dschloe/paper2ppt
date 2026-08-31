@@ -18,19 +18,29 @@ function estimateTextHeight(text, fontSizePt, charsPerLine) {
   return lines * lineH;
 }
 
-export async function fillPptxGenjs({ slides, theme, outputPath, deckDir = ".", skillRoot = "." }) {
+export async function fillPptxGenjs({
+  slides,
+  theme,
+  outputPath,
+  deckDir = ".",
+  skillRoot = ".",
+  refFooter = "",
+}) {
   const pptx = new pptxgen();
   pptx.layout = "LAYOUT_16x9";
   pptx.author = "paper-to-slides";
 
+  const footer =
+    refFooter || slides.find((s) => s.footer)?.footer || theme.refFooter || "";
+
   for (let i = 0; i < slides.length; i++) {
-    addSlide(pptx, slides[i], theme, deckDir, skillRoot, i + 1, slides.length);
+    addSlide(pptx, slides[i], theme, deckDir, skillRoot, i + 1, slides.length, footer);
   }
 
   await pptx.writeFile({ fileName: outputPath });
 }
 
-function addSlide(pptx, slide, theme, deckDir, skillRoot, slideNum, totalSlides) {
+function addSlide(pptx, slide, theme, deckDir, skillRoot, slideNum, totalSlides, refFooter) {
   const s = pptx.addSlide();
   const bg = slide.isLead ? theme.leadBackground : theme.slideBackground;
   if (bg) s.background = { color: bg };
@@ -63,7 +73,7 @@ function addSlide(pptx, slide, theme, deckDir, skillRoot, slideNum, totalSlides)
     addBullets(s, slide.bullets, theme, bodyColor, 0.5, contentY, 9);
   }
 
-  if (slide.footer) addFooter(s, slide.footer, theme, slide.isLead);
+  if (refFooter) addFooter(s, refFooter, theme);
   addSlideNumber(s, slideNum, totalSlides, theme);
 }
 
@@ -241,16 +251,16 @@ function addImage(s, image, deckDir, skillRoot, x, y, w, h) {
   s.addImage(opts);
 }
 
-function addFooter(s, text, theme, isLead) {
+function addFooter(s, text, theme) {
   s.addText(text, {
     x: 0.5,
-    y: 5.1,
-    w: 9,
-    h: 0.3,
+    y: 5.12,
+    w: 8.4,
+    h: 0.28,
     fontFace: bodyFont(theme),
-    fontSize: 10,
+    fontSize: 9,
     color: theme.subtitleColor || "94A3B8",
-    align: isLead ? "center" : "left",
+    align: "center",
     valign: "bottom",
   });
 }

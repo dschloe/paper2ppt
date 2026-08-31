@@ -137,6 +137,15 @@ Per-slide footer (footnote at bottom) — use on the title slide for the canonic
 <!-- _footer: "https://arxiv.org/abs/XXXX.XXXXX" -->
 ```
 
+**All slides:** put the same ref in deck frontmatter so HTML and PPTX show it on every page:
+```yaml
+---
+marp: true
+footer: 'https://arxiv.org/abs/XXXX.XXXXX · https://aclanthology.org/YYYY.id/'
+paginate: true
+---
+```
+
 ## HTML preview: sticky slide title
 
 In browser HTML preview, long slides scroll inside the slide while the `#` title and its underline stay pinned at the top (`position: sticky` in theme CSS). Title slides (`lead`) are excluded.

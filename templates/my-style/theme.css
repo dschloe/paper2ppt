@@ -82,8 +82,9 @@ section table td {
 }
 
 section footer {
-  font-size: 16px;
+  font-size: 14px;
   color: #94a3b8;
+  text-align: center;
 }
 
 /* HTML preview: pin slide title + rule while scrolling long slides */

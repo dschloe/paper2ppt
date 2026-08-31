@@ -47,8 +47,8 @@ if (fs.existsSync(templatePptx)) {
   theme = { ...extracted, ...theme, ...extracted };
 }
 
-const slides = parseDeck(fs.readFileSync(deckPath, "utf8"));
+const { slides, refFooter } = parseDeck(fs.readFileSync(deckPath, "utf8"));
 const deckDir = path.dirname(deckPath);
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
-await fillPptxGenjs({ slides, theme, outputPath: outPath, deckDir, skillRoot: SKILL_ROOT });
+await fillPptxGenjs({ slides, theme, refFooter, outputPath: outPath, deckDir, skillRoot: SKILL_ROOT });
 console.log(`  -> ${outPath}`);

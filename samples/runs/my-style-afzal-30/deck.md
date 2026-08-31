@@ -3,6 +3,7 @@ marp: true
 theme: academic-theme
 size: 16:9
 paginate: true
+footer: 'https://arxiv.org/abs/2407.05925 · https://aclanthology.org/2024.dash-1.2/'
 ---
 
 <!-- _class: lead -->
