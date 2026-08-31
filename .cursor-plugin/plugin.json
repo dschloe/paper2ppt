@@ -1,0 +1,26 @@
+{
+  "name": "paper-to-slides",
+  "displayName": "Paper to Slides",
+  "description": "Convert academic papers (PDF, arXiv, or URL) into editable PowerPoint decks using your PPTX template. Supports figures, tables, in-text citations, Korean/English, and native deck-editable.pptx export.",
+  "version": "1.0.0",
+  "author": {
+    "name": "evanjung"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/dschloe/paper2ppt",
+  "repository": "https://github.com/dschloe/paper2ppt",
+  "logo": "assets/logo.svg",
+  "keywords": [
+    "slides",
+    "presentation",
+    "academic",
+    "papers",
+    "research",
+    "marp",
+    "pptx",
+    "arxiv",
+    "paper-review",
+    "rag",
+    "human-in-the-loop"
+  ]
+}

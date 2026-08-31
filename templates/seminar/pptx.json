@@ -1,0 +1,17 @@
+{
+  "fontFace": "Helvetica Neue",
+  "titleColor": "FFFFFF",
+  "subtitleColor": "94A3B8",
+  "bodyColor": "0F172A",
+  "accentColor": "1E293B",
+  "titleSize": 30,
+  "leadTitleSize": 40,
+  "subtitleSize": 20,
+  "bodySize": 18,
+  "tableFontSize": 14,
+  "tableHeaderFill": "1E293B",
+  "tableHeaderColor": "FFFFFF",
+  "slideBackground": "F8FAFC",
+  "leadBackground": "1E293B",
+  "titleBar": true
+}

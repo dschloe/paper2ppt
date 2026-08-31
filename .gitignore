@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.log
+
+# Sample artifacts (regenerate with build_deck.sh)
+samples/papers/
+samples/**/output/

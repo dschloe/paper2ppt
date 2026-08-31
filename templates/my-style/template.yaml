@@ -1,0 +1,92 @@
+# my-style — 20-slide Korean academic paper template
+
+id: my-style
+name: My Style
+description: >
+  20-slide structure for in-depth Korean/English paper presentations.
+
+marp:
+  theme: academic-theme
+  size: 16:9
+  paginate: true
+
+structure:
+  default_slide_count: 20
+  chapters:
+    - id: title
+      layout: lead
+    - id: outline
+      layout: bullets
+      heading: "발표 개요"
+    - id: background
+      layout: bullets
+      heading: "연구 배경"
+    - id: problem
+      layout: bullets
+      heading: "문제 제기"
+    - id: gap
+      layout: bullets
+      heading: "선행연구 한계"
+    - id: rq
+      layout: bullets
+      heading: "연구 목적 및 RQ"
+    - id: theory
+      layout: bullets
+      heading: "이론적 배경"
+    - id: concept
+      layout: bullets
+      heading: "핵심 개념"
+    - id: method-overview
+      layout: two-column
+      heading: "연구 방법"
+    - id: variables
+      layout: bullets
+      heading: "변수 정의"
+    - id: analysis
+      layout: bullets
+      heading: "분석 방법"
+    - id: results-1
+      layout: bullets
+      heading: "분석결과 I"
+    - id: results-2
+      layout: table
+      heading: "분석결과 II"
+    - id: results-3
+      layout: bullets
+      heading: "분석결과 III"
+    - id: results-4
+      layout: bullets
+      heading: "분석결과 IV"
+    - id: integration
+      layout: bullets
+      heading: "통합 해석"
+    - id: policy
+      layout: bullets
+      heading: "정책적 시사점"
+    - id: limitations
+      layout: bullets
+      heading: "연구 한계"
+    - id: future
+      layout: bullets
+      heading: "향후 연구"
+    - id: takeaway
+      layout: bullets
+      heading: "Takeaway"
+
+layouts:
+  lead:
+    class: lead
+  bullets:
+    max_items: 5
+    max_words_per_item: 14
+  table:
+    max_rows: 6
+    highlight_best: true
+  two-column:
+    left: bullets
+    right: bullets
+
+formatting:
+  language: match_user
+  keep_technical_terms: original
+  citations: apa_parenthetical  # full given + family names; no surname-only "Afzal et al."

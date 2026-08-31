@@ -1,0 +1,5 @@
+# Local PDFs (use arXiv links in source.md when possible)
+papers/
+
+# Rendered artifacts — regenerate with build_deck.sh
+**/output/

@@ -1,0 +1,57 @@
+# Copy this folder to templates/<your-name>/ and edit.
+# The Cursor agent reads this file — no code parses it.
+
+id: my-template
+name: My Custom Template
+description: >
+  Short description of when to use this template.
+
+marp:
+  theme: my-template-theme   # must match @theme in theme.css
+  size: 16:9
+  paginate: true
+
+structure:
+  default_slide_count: 7
+  chapters:
+    - id: title
+      layout: lead
+      heading: null
+    - id: problem
+      layout: bullets
+      heading: "Problem"
+    - id: method
+      layout: bullets
+      heading: "Method"
+    - id: how
+      layout: bullets
+      heading: "How It Works"
+    - id: results
+      layout: table
+      heading: "Results"
+    - id: limitations
+      layout: bullets
+      heading: "Limitations"
+    - id: takeaway
+      layout: bullets
+      heading: "Takeaway"
+
+layouts:
+  lead:
+    class: lead
+    subtitle_fields: [authors, venue]
+  bullets:
+    max_items: 5
+    max_words_per_item: 10
+  table:
+    max_rows: 6
+    highlight_best: true
+  figure:
+    fallback: "See {ref} in the original paper"
+  two-column:
+    left: bullets
+    right: bullets
+
+formatting:
+  language: match_user
+  keep_technical_terms: original

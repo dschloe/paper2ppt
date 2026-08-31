@@ -1,0 +1,15 @@
+{
+  "name": "paper-to-slides",
+  "private": true,
+  "type": "module",
+  "description": "Cursor skill: academic paper to editable slide decks",
+  "scripts": {
+    "build:editable": "node scripts/build_editable_pptx.mjs",
+    "create:layout-template": "node scripts/create_layout_template.mjs"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.11.1",
+    "pptx-automizer": "^0.9.3",
+    "pptxgenjs": "^4.0.1"
+  }
+}

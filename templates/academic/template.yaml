@@ -1,0 +1,58 @@
+# Default template — clean academic review deck (7 slides, 16:9)
+# Read by the Cursor agent only; no runtime parser.
+
+id: academic
+name: Academic Review
+description: >
+  White background, blue accent, title underline.
+  Best for lab meetings and paper reviews.
+
+marp:
+  theme: academic-theme
+  size: 16:9
+  paginate: true
+
+structure:
+  default_slide_count: 7
+  chapters:
+    - id: title
+      layout: lead
+      heading: null  # use paper title
+    - id: problem
+      layout: bullets
+      heading: "Problem / Motivation"
+    - id: method
+      layout: bullets
+      heading: "Method / Approach"
+    - id: how
+      layout: two-column
+      heading: "How It Works"
+    - id: results
+      layout: table
+      heading: "Key Results"
+    - id: limitations
+      layout: bullets
+      heading: "Limitations & Open Questions"
+    - id: takeaway
+      layout: bullets
+      heading: "Takeaway"
+
+layouts:
+  lead:
+    class: lead
+    subtitle_fields: [authors, venue]
+  bullets:
+    max_items: 5
+    max_words_per_item: 10
+  table:
+    max_rows: 6
+    highlight_best: true
+  figure:
+    fallback: "See {ref} in the original paper"
+  two-column:
+    left: concept or bullets
+    right: diagram description or secondary bullets
+
+formatting:
+  language: match_user
+  keep_technical_terms: original

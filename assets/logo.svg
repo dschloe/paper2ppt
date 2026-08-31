@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Paper to Slides">
+  <rect width="128" height="128" rx="24" fill="#1e3a5f"/>
+  <rect x="28" y="24" width="52" height="68" rx="6" fill="#ffffff"/>
+  <rect x="36" y="36" width="36" height="4" rx="2" fill="#3b82f6"/>
+  <rect x="36" y="46" width="30" height="3" rx="1.5" fill="#94a3b8"/>
+  <rect x="36" y="54" width="34" height="3" rx="1.5" fill="#94a3b8"/>
+  <rect x="36" y="62" width="28" height="3" rx="1.5" fill="#94a3b8"/>
+  <rect x="48" y="76" width="48" height="32" rx="6" fill="#2563eb"/>
+  <rect x="56" y="86" width="32" height="3" rx="1.5" fill="#dbeafe"/>
+  <rect x="56" y="94" width="24" height="3" rx="1.5" fill="#dbeafe"/>
+</svg>

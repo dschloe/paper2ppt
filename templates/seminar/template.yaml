@@ -1,0 +1,58 @@
+# Seminar template — larger type for room projection (7 slides)
+# Read by the Cursor agent only; no runtime parser.
+
+id: seminar
+name: Seminar (Large Type)
+description: >
+  Dark header bar, larger fonts, high contrast.
+  Best for conference talks and seminar rooms.
+
+marp:
+  theme: seminar-theme
+  size: 16:9
+  paginate: true
+
+structure:
+  default_slide_count: 7
+  chapters:
+    - id: title
+      layout: lead
+      heading: null
+    - id: problem
+      layout: bullets
+      heading: "Why This Matters"
+    - id: method
+      layout: bullets
+      heading: "Core Idea"
+    - id: how
+      layout: bullets
+      heading: "How It Works"
+    - id: results
+      layout: table
+      heading: "Results"
+    - id: limitations
+      layout: bullets
+      heading: "Limitations"
+    - id: takeaway
+      layout: bullets
+      heading: "Key Takeaways"
+
+layouts:
+  lead:
+    class: lead
+    subtitle_fields: [authors, venue]
+  bullets:
+    max_items: 4
+    max_words_per_item: 8
+  table:
+    max_rows: 5
+    highlight_best: true
+  figure:
+    fallback: "See {ref} in the original paper"
+  two-column:
+    left: bullets
+    right: bullets
+
+formatting:
+  language: match_user
+  keep_technical_terms: original
