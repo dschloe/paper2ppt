@@ -23,6 +23,8 @@ template.pptx  +  paper.pdf  →  Cursor 채팅  →  deck-editable.pptx
   - [5. 수정하기](#5-수정하기)
   - [6. 이미지와 표](#6-이미지와-표)
   - [7. 인용 (in-text citation)](#7-인용-in-text-citation)
+  - [8. 타이틀 슬라이드·HTML 미리보기](#8-타이틀-슬라이드html-미리보기)
+  - [9. 폰트 (OS 설치 글꼴)](#9-폰트-os-설치-글꼴)
 - [내장 템플릿](#내장-템플릿)
 - [커스텀 템플릿 만들기](#커스텀-템플릿-만들기)
 - [출력 형식 비교](#출력-형식-비교)
@@ -149,7 +151,7 @@ make a 7-slide deck from this arXiv paper: https://arxiv.org/abs/2412.xxxxx
 |------|------|
 | `deck-editable.pptx` | **주요 결과물** — PowerPoint·Keynote에서 텍스트·표 편집 가능 |
 | `deck.md` | 슬라이드 내용 원본 — 수정 후 재생성할 때 사용 |
-| `deck.html` | 브라우저 발표용 (빌드 시 자동 생성) |
+| `deck.html` | 브라우저 발표용 (빌드 시 자동 생성, `output/assets/`에 이미지 복사) |
 | `deck.pptx` | Marp 이미지 기반 PPTX (`--pptx` 옵션 시, 편집 불가) |
 
 ### 4. 직접 빌드 (터미널)
@@ -168,14 +170,14 @@ scripts/build_deck.sh path/to/deck.md path/to/output/deck --template academic
 scripts/build_deck.sh path/to/deck.md path/to/output/deck --template academic --pptx
 ```
 
-결과: `output/deck-editable.pptx`, `output/deck.html`
+결과: `output/deck-editable.pptx`, `output/deck.html`, `output/assets/` (HTML용 이미지)
 
 ### 5. 수정하기
 
 | 바꾸고 싶은 것 | 방법 |
 |---------------|------|
 | 슬라이드 **내용** (문구, 숫자) | `deck.md` 편집, 또는 Cursor에 *"3번 슬라이드 Method에 한 줄 추가해줘"* |
-| **색·폰트** | `templates/<id>/pptx.json` 수정, 또는 양식 pptx 재import |
+| **색·폰트** | `templates/<id>/pptx.json` 수정 (`titleFontFace` / `bodyFontFace`), `theme.css`의 `font-family`, 또는 양식 pptx 재import |
 | **슬라이드 구성** (7장 → 10장) | `templates/<id>/template.yaml`의 `chapters` 수정 |
 | PowerPoint에서 직접 손보기 | `deck-editable.pptx` 열어서 편집 (텍스트 박스가 살아 있음) |
 
@@ -246,6 +248,52 @@ Cursor 채팅: *"논문 Figure 2랑 Table 3 넣어서 슬라이드 만들어줘"
 - 마지막 슬라이드에 **주요 참고문헌** 5~8개 요약 가능
 - Cursor 채팅: *"in-text citation 추가해줘"*
 
+### 8. 타이틀 슬라이드·HTML 미리보기
+
+**타이틀 슬라이드** 권장 형식:
+
+```markdown
+<!-- _class: lead -->
+<!-- _footer: "https://arxiv.org/abs/2407.05925 · https://aclanthology.org/2024.dash-1.2/" -->
+
+# Towards Optimizing and Evaluating a Retrieval Augmented QA Chatbot using LLMs with Human-in-the-Loop (2024)
+
+## Anum Afzal, Alexander Kowsik, Rajna Fani, Florian Matthes
+
+ACL DaSH 2024 · Human-in-the-Loop on industrial HR data
+```
+
+- `#` 제목: 논문 **전체 제목 + (연도)** — 줄임말 대신 정식 제목
+- `##` 저자: **풀네임** (제목 아래 별도 줄)
+- `<!-- _footer: ... -->`: 하단 footnote에 arXiv·ACL 등 **논문 링크**
+
+**HTML 미리보기** (`deck.html`을 Chrome에서 열 때):
+
+| 기능 | 설명 |
+|------|------|
+| 이미지 | `build_deck.sh`가 `assets/`를 `output/assets/`로 복사 — 경로 깨짐 방지 |
+| 제목 고정 | 내용이 긴 슬라이드에서 스크롤 시 `#` 제목·파란 구분선이 상단에 고정 |
+
+`output/deck.html`을 열 때는 **강력 새로고침**(Cmd+Shift+R)을 권장합니다.
+
+### 9. 폰트 (OS 설치 글꼴)
+
+폰트 **파일 경로**가 아니라, macOS·Windows에 **이미 설치된 글꼴 이름**을 지정합니다.
+
+| 파일 | 설정 예시 (`my-style`) |
+|------|------------------------|
+| `templates/<id>/theme.css` | `section h1` → 제목, `section` → 본문 `font-family` |
+| `templates/<id>/pptx.json` | `"titleFontFace"`, `"bodyFontFace"` |
+
+기본 `my-style` 예시:
+
+- 제목: **S-Core Dream 5 Medium** (에스코어 드림 5 Medium)
+- 본문: **S-Core Dream 4 Regular** (에스코어 드림 4 Regular)
+
+Font Book(맥)에서 보이는 **정확한 이름**을 써야 합니다. 다른 PC에서도 같은 폰트가 설치되어 있어야 PPTX·HTML이 동일하게 보입니다.
+
+Cursor 채팅 예시: *"제목은 에스코어 Medium, 본문은 에스코어 Regular로 해줘"*
+
 ---
 
 ## 내장 템플릿
@@ -254,6 +302,7 @@ Cursor 채팅: *"논문 Figure 2랑 Table 3 넣어서 슬라이드 만들어줘"
 |----|------|------|
 | `academic` | 논문 리뷰, 랩 미팅 (기본) | 흰 배경, 파란 악센트, 7장 구성 |
 | `seminar` | 세미나·학회 발표 | 큰 글씨, 고대비 헤더 |
+| `my-style` | 심화 발표 (20~30장) | 에스코어 드림 제목/본문, 타이틀 footnote·링크 지원 |
 
 별도 양식 없이 바로 사용:
 
@@ -296,17 +345,26 @@ node scripts/import_pptx_template.mjs templates/my-style/template.pptx --name my
 repo에 포함된 샘플 논문으로 테스트:
 
 ```bash
-# 영어 논문 샘플
+# 영어 논문 30장 (my-style, Afzal et al. 2024 HR RAG)
+scripts/build_deck.sh \
+  samples/runs/my-style-afzal-30/deck.md \
+  samples/runs/my-style-afzal-30/output/deck \
+  --template my-style --editable-pptx
+
+# 영어 논문 7장 (academic)
 scripts/build_deck.sh \
   samples/runs/academic-afzal-hr-rag/deck.md \
   samples/runs/academic-afzal-hr-rag/output/deck \
   --template academic --editable-pptx
+```
 
-# 한글 논문 샘플
-scripts/build_deck.sh \
-  samples/runs/academic-jung-signaling/deck.md \
-  samples/runs/academic-jung-signaling/output/deck \
-  --template academic --editable-pptx
+PDF에서 그림 추출 (선택):
+
+```bash
+brew install poppler   # 최초 1회
+scripts/extract_pdf_figures.sh \
+  "samples/papers/Afzal et al. - 2024 - Towards Optimizing and Evaluating a Retrieval Augmented QA Chatbot using LLMs with Human-in-the-Loop.pdf" \
+  samples/runs/my-style-afzal-30/assets/
 ```
 
 샘플 구조:
@@ -315,10 +373,13 @@ scripts/build_deck.sh \
 samples/
 ├── papers/              # 테스트용 PDF (git 제외)
 └── runs/<name>/
-    ├── source.md        # 사용한 논문 정보
+    ├── source.md        # 사용한 논문 정보·arXiv 링크
     ├── deck.md          # 슬라이드 원본
+    ├── assets/          # PDF에서 추출한 fig-*.png
     └── output/
-        └── deck-editable.pptx
+        ├── deck.html
+        ├── deck-editable.pptx
+        └── assets/      # HTML 미리보기용 (빌드 시 자동 복사)
 ```
 
 자세한 내용: [`samples/README.md`](samples/README.md)
@@ -337,6 +398,7 @@ paper-to-slides/
 ├── templates/
 │   ├── academic/               # 기본 템플릿
 │   ├── seminar/
+│   ├── my-style/               # 에스코어 폰트·20~30장 심화 구성
 │   ├── _example/               # 커스텀 템플릿 시작점
 │   └── <your-name>/            # import로 생성
 │       ├── template.pptx
@@ -423,4 +485,10 @@ paper-to-slides/
 네. 채팅에 링크를 붙이고 변환을 요청하면 됩니다.
 
 **Q. 슬라이드 장수를 바꾸고 싶어요.**  
-*"10장으로 만들어줘"* 또는 `template.yaml`의 `chapters`를 수정하세요.
+*"30장으로 만들어줘"* 또는 `template.yaml`의 `chapters`를 수정하세요. `deck.md` 장수는 템플릿 기본값(7·20장)보다 늘어날 수 있습니다.
+
+**Q. HTML에서 이미지가 안 보여요.**  
+`deck.html`과 같은 폴더에 `output/assets/`가 있어야 합니다. `build_deck.sh`를 다시 실행하면 자동 복사됩니다. `deck.md`가 있는 `assets/`가 아닌 **`output/assets/`**를 Chrome이 참조합니다.
+
+**Q. 제목 슬라이드에서 저자가 제목과 겹쳐요.**  
+긴 제목은 여러 줄로 나뉩니다. `my-style` 템플릿은 제목·저자 간격을 넓혀 두었습니다. 그래도 겹치면 `theme.css`의 `section.lead h1` `margin-bottom` 또는 PPTX `leadTitleSize`를 조정하세요.

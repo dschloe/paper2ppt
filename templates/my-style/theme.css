@@ -39,7 +39,14 @@ section.lead h1 {
   font-family: 'S-Core Dream 5 Medium', '에스코어 드림 5 Medium', 'S-Core Dream 4 Regular', sans-serif;
   font-size: 52px;
   font-weight: normal;
+  line-height: 1.25;
+  margin-bottom: 40px;
   border-bottom: none;
+}
+
+section.lead h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
 }
 
 section ul {

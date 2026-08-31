@@ -82,16 +82,20 @@ function addTitleBlock(s, pptx, slide, theme) {
     return 1.35;
   }
 
-  const titleY = slide.isLead ? 1.8 : 0.45;
+  const titleY = slide.isLead ? 1.5 : 0.45;
+  const leadTitleH = slide.isLead
+    ? Math.min(3.4, 0.5 + Math.ceil(slide.title.length / 46) * 0.48)
+    : 0.9;
   s.addText(slide.title, {
     x: 0.5,
     y: titleY,
     w: 9,
-    h: slide.isLead ? 1.2 : 0.9,
+    h: slide.isLead ? leadTitleH : 0.9,
     fontFace: titleFont(theme),
     fontSize: slide.isLead ? theme.leadTitleSize : theme.titleSize,
     bold: false,
     color: theme.titleColor,
+    valign: "top",
   });
 
   if (!slide.isLead && !theme.titleBar) {
@@ -104,7 +108,7 @@ function addTitleBlock(s, pptx, slide, theme) {
     });
   }
 
-  let y = slide.isLead ? 3.1 : 1.55;
+  let y = slide.isLead ? titleY + leadTitleH + 0.35 : 1.55;
   if (slide.subtitle) {
     s.addText(slide.subtitle, {
       x: 0.5,
