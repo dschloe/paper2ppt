@@ -90,7 +90,7 @@ function addTitleBlock(s, pptx, slide, theme) {
   }
 
   if (slide.isLead) {
-    const titleY = 2.15;
+    const titleY = 1.55;
     const leadFontSize = theme.leadTitleSize || 36;
     const leadTitleH = estimateTextHeight(slide.title, leadFontSize, 42);
     s.addText(slide.title, {
