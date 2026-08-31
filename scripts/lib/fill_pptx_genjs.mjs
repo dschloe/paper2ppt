@@ -3,6 +3,14 @@ import path from "node:path";
 import pptxgen from "pptxgenjs";
 import { resolveAssetPath } from "./resolve_asset.mjs";
 
+function titleFont(theme) {
+  return theme.titleFontFace || theme.fontFace;
+}
+
+function bodyFont(theme) {
+  return theme.bodyFontFace || theme.fontFace;
+}
+
 export async function fillPptxGenjs({ slides, theme, outputPath, deckDir = ".", skillRoot = "." }) {
   const pptx = new pptxgen();
   pptx.layout = "LAYOUT_16x9";
@@ -65,9 +73,9 @@ function addTitleBlock(s, pptx, slide, theme) {
       y: 0.2,
       w: 9,
       h: 0.8,
-      fontFace: theme.fontFace,
+      fontFace: titleFont(theme),
       fontSize: theme.titleSize,
-      bold: true,
+      bold: false,
       color: theme.titleColor,
       valign: "middle",
     });
@@ -80,9 +88,9 @@ function addTitleBlock(s, pptx, slide, theme) {
     y: titleY,
     w: 9,
     h: slide.isLead ? 1.2 : 0.9,
-    fontFace: theme.fontFace,
+    fontFace: titleFont(theme),
     fontSize: slide.isLead ? theme.leadTitleSize : theme.titleSize,
-    bold: true,
+    bold: false,
     color: theme.titleColor,
   });
 
@@ -103,7 +111,7 @@ function addTitleBlock(s, pptx, slide, theme) {
       y,
       w: 9,
       h: 0.5,
-      fontFace: theme.fontFace,
+      fontFace: bodyFont(theme),
       fontSize: theme.subtitleSize,
       color: theme.subtitleColor,
     });
@@ -120,20 +128,24 @@ function addTable(s, table, theme, bodyColor, x, y, w) {
       header.map((cell) => ({
         text: cell,
         options: {
-          bold: true,
+          fontFace: titleFont(theme),
+          bold: false,
           color: theme.tableHeaderColor,
           fill: { color: theme.tableHeaderFill },
         },
       })),
       ...body.map((row) =>
-        row.map((cell) => ({ text: cell, options: { color: bodyColor } }))
+        row.map((cell) => ({
+          text: cell,
+          options: { fontFace: bodyFont(theme), color: bodyColor },
+        }))
       ),
     ],
     {
       x,
       y,
       w,
-      fontFace: theme.fontFace,
+      fontFace: bodyFont(theme),
       fontSize: theme.tableFontSize || 13,
       border: { pt: 0.5, color: "E2E8F0" },
       valign: "middle",
@@ -170,7 +182,7 @@ function addFooter(s, text, theme, isLead) {
     y: 5.15,
     w: 9,
     h: 0.3,
-    fontFace: theme.fontFace,
+    fontFace: bodyFont(theme),
     fontSize: 11,
     color: isLead ? "CBD5E1" : theme.subtitleColor || "94A3B8",
     valign: "bottom",
@@ -183,7 +195,7 @@ function addCaption(s, text, theme, color, y) {
     y,
     w: 9,
     h: 0.35,
-    fontFace: theme.fontFace,
+    fontFace: bodyFont(theme),
     fontSize: (theme.bodySize || 16) - 2,
     color: color || theme.subtitleColor,
     italic: true,
@@ -205,7 +217,7 @@ function addBullets(slide, items, theme, color, x, y, w) {
     items.map((b) => ({
       text: b,
       options: {
-        fontFace: theme.fontFace,
+        fontFace: bodyFont(theme),
         fontSize: theme.bodySize,
         color,
         bullet: { code: "2022" },

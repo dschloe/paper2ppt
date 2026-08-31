@@ -64,3 +64,21 @@ section footer {
   font-size: 16px;
   color: #94a3b8;
 }
+
+/* HTML preview: pin slide title + rule while scrolling long slides */
+@media screen {
+  section:not(.lead) {
+    display: block;
+    overflow-y: auto;
+    place-content: start;
+  }
+
+  section:not(.lead) h1 {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #ffffff;
+    margin-top: 0;
+    padding-top: 4px;
+  }
+}

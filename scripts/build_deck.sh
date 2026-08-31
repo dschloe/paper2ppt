@@ -63,9 +63,24 @@ if ! command -v marp &> /dev/null; then
   exit 1
 fi
 
+DECK_DIR="$(cd "$(dirname "$DECK_MD")" && pwd)"
+mkdir -p "$(dirname "${OUT_BASE}.html")"
+OUT_DIR="$(cd "$(dirname "${OUT_BASE}.html")" && pwd)"
+
+sync_deck_assets() {
+  local assets_src="${DECK_DIR}/assets"
+  local assets_dst="${OUT_DIR}/assets"
+  if [[ -d "$assets_src" ]]; then
+    rm -rf "$assets_dst"
+    cp -R "$assets_src" "$assets_dst"
+    echo "  -> ${assets_dst}/ (images for HTML preview)"
+  fi
+}
+
 echo "Rendering HTML (template: ${TEMPLATE_ID})..."
 marp "$DECK_MD" --theme "$THEME" --html --allow-local-files -o "${OUT_BASE}.html"
 echo "  -> ${OUT_BASE}.html"
+sync_deck_assets
 
 if [[ "$WANT_PPTX" == "--pptx" ]]; then
   echo "Rendering PPTX (image-based slides inside a .pptx container)..."

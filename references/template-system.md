@@ -148,7 +148,17 @@ scripts/build_deck.sh deck.md output-basename --template <id> [--pptx] [--editab
 1. Copy `templates/_example/` → `templates/my-style/` (or `~/.cursor/skills/paper-to-slides/templates/my-style/`)
 2. Edit `template.yaml` — slide count, headings, bullet limits
 3. Edit `theme.css` — fonts, colors, table header style (`@theme` name must match `marp.theme`)
-4. Edit `pptx.json` — same colors/fonts for editable PowerPoint export
+4. Edit `pptx.json` — same colors/fonts for editable PowerPoint export (`titleFontFace` / `bodyFontFace` optional)
+
+### OS-installed fonts
+
+Templates can reference fonts already on the machine — no font files in the repo required.
+
+1. Note the exact name from Font Book (macOS) or Font settings (Windows), e.g. `S-Core Dream 5 Medium`.
+2. Set `theme.css`: `section { font-family: 'S-Core Dream 4 Regular', ... }` and `section h1 { font-family: 'S-Core Dream 5 Medium', ... }`
+3. Set `pptx.json`: `"titleFontFace": "S-Core Dream 5 Medium"`, `"bodyFontFace": "S-Core Dream 4 Regular"`
+
+HTML and PowerPoint resolve installed fonts by **name**, not file path. Viewers need the same fonts installed (or add `@font-face` files for portable HTML).
 5. Ask the agent: "my-style 템플릿으로 이 논문 슬라이드 만들어줘"
 
 No code changes required.

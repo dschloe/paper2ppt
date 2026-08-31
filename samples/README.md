@@ -12,6 +12,7 @@ samples/
     ├── deck.md          # Marp markdown the agent wrote
     └── output/          # rendered files (gitignored)
         ├── deck.html
+        ├── assets/            # copied from run assets/ for HTML image paths
         ├── deck.pptx          # optional, Marp image-based
         └── deck-editable.pptx # optional, native editable
 ```

@@ -4,7 +4,7 @@
 @import 'default';
 
 section {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'S-Core Dream 4 Regular', '에스코어 드림 4 Regular', 'Helvetica Neue', Arial, sans-serif;
   background: #ffffff;
   color: #1a1a1a;
   padding: 60px 70px;
@@ -12,8 +12,9 @@ section {
 }
 
 section h1 {
+  font-family: 'S-Core Dream 5 Medium', '에스코어 드림 5 Medium', 'S-Core Dream 4 Regular', sans-serif;
   font-size: 42px;
-  font-weight: 700;
+  font-weight: normal;
   color: #0f172a;
   border-bottom: 4px solid #2563eb;
   padding-bottom: 12px;
@@ -35,7 +36,9 @@ section.lead {
 }
 
 section.lead h1 {
+  font-family: 'S-Core Dream 5 Medium', '에스코어 드림 5 Medium', 'S-Core Dream 4 Regular', sans-serif;
   font-size: 52px;
+  font-weight: normal;
   border-bottom: none;
 }
 
@@ -63,4 +66,22 @@ section table td {
 section footer {
   font-size: 16px;
   color: #94a3b8;
+}
+
+/* HTML preview: pin slide title + rule while scrolling long slides */
+@media screen {
+  section:not(.lead) {
+    display: block;
+    overflow-y: auto;
+    place-content: start;
+  }
+
+  section:not(.lead) h1 {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #ffffff;
+    margin-top: 0;
+    padding-top: 4px;
+  }
 }

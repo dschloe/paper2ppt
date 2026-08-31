@@ -90,3 +90,6 @@ formatting:
   language: match_user
   keep_technical_terms: original
   citations: apa_parenthetical  # full given + family names; no surname-only "Afzal et al."
+  fonts:
+    title: "S-Core Dream 5 Medium"   # OS-installed; HTML theme.css + pptx.json titleFontFace
+    body: "S-Core Dream 4 Regular"   # OS-installed; pptx.json bodyFontFace

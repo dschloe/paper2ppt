@@ -136,3 +136,7 @@ Per-slide footer (footnote at bottom) — use on the title slide for the canonic
 ```markdown
 <!-- _footer: "https://arxiv.org/abs/XXXX.XXXXX" -->
 ```
+
+## HTML preview: sticky slide title
+
+In browser HTML preview, long slides scroll inside the slide while the `#` title and its underline stay pinned at the top (`position: sticky` in theme CSS). Title slides (`lead`) are excluded.

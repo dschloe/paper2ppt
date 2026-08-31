@@ -1,5 +1,7 @@
 {
-  "fontFace": "Calibri Light",
+  "fontFace": "S-Core Dream 4 Regular",
+  "titleFontFace": "S-Core Dream 5 Medium",
+  "bodyFontFace": "S-Core Dream 4 Regular",
   "titleColor": "0F172A",
   "subtitleColor": "475569",
   "bodyColor": "1A1A1A",
@@ -13,5 +15,5 @@
   "tableHeaderFill": "2563EB",
   "tableHeaderColor": "FFFFFF",
   "titleBar": false,
-  "_extractedFrom": "/Users/evan/programming_edu/paper2ppt/templates/_example/template.pptx"
+  "_fontsNote": "Uses OS-installed S-Core Dream (에스코어 드림). Install SCDream4.otf + SCDream5.otf on presentation machines."
 }

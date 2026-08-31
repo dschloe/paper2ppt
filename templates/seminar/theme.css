@@ -71,3 +71,18 @@ section footer {
   font-size: 18px;
   color: #64748b;
 }
+
+/* HTML preview: pin slide title bar while scrolling long slides */
+@media screen {
+  section:not(.lead) {
+    display: block;
+    overflow-y: auto;
+    place-content: start;
+  }
+
+  section:not(.lead) h1 {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+}
