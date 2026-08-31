@@ -22,6 +22,7 @@ export function parseSlide(raw) {
   const layoutHint = layoutMatch?.[1] || null;
 
   const isLead = /<!--\s*_class:\s*lead\s*-->/.test(raw);
+  const footer = parseFooter(raw);
   let text = raw.replace(/<!--[\s\S]*?-->/g, "");
 
   const twoColumn = parseTwoColumn(text);
@@ -40,6 +41,7 @@ export function parseSlide(raw) {
       table: null,
       image: null,
       caption: twoColumn.caption,
+      footer,
     };
   }
 
@@ -117,7 +119,18 @@ export function parseSlide(raw) {
     right: [],
     leftImage: null,
     rightImage: null,
+    footer,
   };
+}
+
+function parseFooter(raw) {
+  const match = raw.match(/<!--\s*_?footer:\s*(.+?)\s*-->/i);
+  if (!match) return "";
+  return stripMd(stripQuotes(match[1].trim()));
+}
+
+function stripQuotes(s) {
+  return s.replace(/^['"]|['"]$/g, "");
 }
 
 function parseTwoColumn(text) {

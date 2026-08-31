@@ -32,33 +32,23 @@ function addSlide(pptx, slide, theme, deckDir, skillRoot) {
       addBullets(s, slide.right, theme, bodyColor, 5.0, contentY, 4.2);
     }
     if (slide.caption) addCaption(s, slide.caption, theme, bodyColor, contentY);
-    return;
-  }
-
-  if (slide.layout === "image-table" && slide.image && slide.table) {
+  } else if (slide.layout === "image-table" && slide.image && slide.table) {
     addTable(s, slide.table, theme, bodyColor, 0.5, contentY, 4.8);
     addImage(s, slide.image, deckDir, skillRoot, 5.5, contentY, 4.0, 3.8);
     if (slide.caption) addCaption(s, slide.caption, theme, bodyColor, contentY + 3.9);
-    return;
-  }
-
-  if (slide.image && slide.layout === "figure") {
+  } else if (slide.image && slide.layout === "figure") {
     addImage(s, slide.image, deckDir, skillRoot, 1.0, contentY, 8.0, 3.6);
     if (slide.caption) addCaption(s, slide.caption, theme, bodyColor, contentY + 3.7);
     if (slide.bullets.length) {
       addBullets(s, slide.bullets, theme, bodyColor, 0.5, contentY + 4.0, 9);
     }
-    return;
-  }
-
-  if (slide.table) {
+  } else if (slide.table) {
     addTable(s, slide.table, theme, bodyColor, 0.5, contentY, 9);
-    return;
-  }
-
-  if (slide.bullets.length) {
+  } else if (slide.bullets.length) {
     addBullets(s, slide.bullets, theme, bodyColor, 0.5, contentY, 9);
   }
+
+  if (slide.footer) addFooter(s, slide.footer, theme, slide.isLead);
 }
 
 function addTitleBlock(s, pptx, slide, theme) {
@@ -172,6 +162,19 @@ function addImage(s, image, deckDir, skillRoot, x, y, w, h) {
     opts.h = h;
   }
   s.addImage(opts);
+}
+
+function addFooter(s, text, theme, isLead) {
+  s.addText(text, {
+    x: 0.5,
+    y: 5.15,
+    w: 9,
+    h: 0.3,
+    fontFace: theme.fontFace,
+    fontSize: 11,
+    color: isLead ? "CBD5E1" : theme.subtitleColor || "94A3B8",
+    valign: "bottom",
+  });
 }
 
 function addCaption(s, text, theme, color, y) {

@@ -69,10 +69,14 @@ For longer decks, duplicate or split chapters (e.g. `method-1`, `method-2`) but 
 
 ```markdown
 <!-- _class: lead -->
-# {paper title}
-## {authors} · {venue/year}
-{one-line hook}
+<!-- _footer: "https://arxiv.org/abs/XXXX.XXXXX" -->
+# {paper title} ({year})
+## {authors}
+{venue} · {one-line hook}
 ```
+
+- Use the **full paper title** with publication year in the `#` heading — not a shortened alias.
+- Put the canonical paper URL in a Marp `_footer` directive (renders as a bottom footnote in HTML and editable PPTX).
 
 ### `bullets`
 

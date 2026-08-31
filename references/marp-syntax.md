@@ -128,5 +128,11 @@ Rules:
 ## Class directive
 ```markdown
 <!-- _class: lead -->
-# Big centered title slide
+<!-- _footer: "https://arxiv.org/abs/XXXX.XXXXX" -->
+# Full Paper Title (2024)
+```
+
+Per-slide footer (footnote at bottom) — use on the title slide for the canonical paper URL:
+```markdown
+<!-- _footer: "https://arxiv.org/abs/XXXX.XXXXX" -->
 ```
