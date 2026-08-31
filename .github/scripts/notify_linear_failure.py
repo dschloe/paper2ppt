@@ -72,7 +72,9 @@ def graphql(query: str, variables: dict | None = None) -> dict:
 
 
 def build_title(workflow_name: str, repository: str) -> str:
-    return f"[CI] {workflow_name} failed — {repository}"
+    prefix = os.environ.get("LINEAR_TITLE_PREFIX", "[paper2ppt]").strip()
+    base = f"[CI] {workflow_name} failed — {repository}"
+    return f"{prefix} {base}" if prefix else base
 
 
 def build_description() -> str:

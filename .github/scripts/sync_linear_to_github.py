@@ -73,10 +73,12 @@ def github_request(method: str, path: str, body: dict | None = None) -> Any:
         return json.loads(resp.read())
 
 
-def list_linear_open_issues(team_id: str, limit: int = 50) -> list[dict]:
+def list_linear_open_issues(team_id: str, title_prefix: str = "", limit: int = 50) -> list[dict]:
     filt: dict = {"state": {"type": {"nin": ["completed", "canceled"]}}}
     if team_id:
         filt["team"] = {"id": {"eq": team_id}}
+    if title_prefix:
+        filt["title"] = {"contains": title_prefix}
 
     issues: list[dict] = []
     after = None
@@ -87,7 +89,10 @@ def list_linear_open_issues(team_id: str, limit: int = 50) -> list[dict]:
             {"first": page_size, "after": after, "filter": filt},
         )
         conn = data["issues"]
-        issues.extend(conn["nodes"])
+        batch = conn["nodes"]
+        if title_prefix:
+            batch = [i for i in batch if title_prefix in (i.get("title") or "")]
+        issues.extend(batch)
         if not conn["pageInfo"]["hasNextPage"]:
             break
         after = conn["pageInfo"]["endCursor"]
@@ -145,6 +150,7 @@ def main() -> int:
     api_key = os.environ.get("LINEAR_API_KEY", "").strip()
     token = os.environ.get("GITHUB_TOKEN", "").strip()
     team_id = os.environ.get("LINEAR_TEAM_ID", "").strip()
+    title_prefix = os.environ.get("LINEAR_TITLE_PREFIX", "[paper2ppt]").strip()
     prefix = os.environ.get("ISSUE_TITLE_PREFIX", "[linear]").strip()
     dry_run = os.environ.get("DRY_RUN") == "1"
 
@@ -153,9 +159,13 @@ def main() -> int:
         return 0
 
     try:
-        linear_issues = list_linear_open_issues(team_id)
+        linear_issues = list_linear_open_issues(team_id, title_prefix=title_prefix)
         github_issues = list_github_open_issues()
-        print(f"Found {len(linear_issues)} open Linear issue(s), {len(github_issues)} open GitHub issue(s)")
+        prefix_note = f" (title contains {title_prefix!r})" if title_prefix else ""
+        print(
+            f"Found {len(linear_issues)} open Linear issue(s){prefix_note}, "
+            f"{len(github_issues)} open GitHub issue(s)"
+        )
 
         for issue in linear_issues:
             ident = issue["identifier"]

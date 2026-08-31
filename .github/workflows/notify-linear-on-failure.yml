@@ -25,6 +25,7 @@ jobs:
         env:
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
           LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
+          LINEAR_TITLE_PREFIX: "[paper2ppt]"
           LINEAR_LABEL_IDS: ${{ vars.LINEAR_LABEL_IDS }}
           WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
           WORKFLOW_RUN_URL: ${{ github.event.workflow_run.html_url }}

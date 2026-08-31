@@ -472,11 +472,26 @@ This repo follows the same automation pattern as [ollama-advisor](https://github
 
 | Secret | Required for | Notes |
 |--------|----------------|-------|
-| `LINEAR_API_KEY` | Linear notify + sync | Linear → Settings → API → Personal API keys |
-| `LINEAR_TEAM_ID` | Linear notify + sync | Team UUID in Linear |
+| `LINEAR_API_KEY` | Linear notify + sync | Same workspace API key is fine (e.g. reuse from other repos) |
+| `LINEAR_TEAM_ID` | Linear notify + sync | **Dschloe (`DSC`) team UUID** — not `ollama-advisor` (`OA`) |
 | `AGENT_GITHUB_TOKEN` | Sync only | Fine-grained PAT with Issues read/write on this repo |
 
-Optional repository variable: `LINEAR_LABEL_IDS` (comma-separated label UUIDs for CI-created Linear issues).
+**Important:** Use the **Dschloe (`DSC`)** team. Prefix paper2ppt Linear issue titles with **`[paper2ppt]`** (e.g. `[paper2ppt] Fix PPTX footer`). Only those titles sync to this repo’s GitHub Issues — other DSC work stays in Linear only.
+
+Optional repository variable: `LINEAR_LABEL_IDS` (comma-separated label UUIDs for extra Linear labels on CI failures).
+
+| Setting | Default | Purpose |
+|---------|---------|---------|
+| `LINEAR_TITLE_PREFIX` | `[paper2ppt]` | Sync + CI issues use this title prefix |
+
+### Local setup
+
+Copy [`.env.example`](.env.example) → `.env` and fill in the same values as Secrets (for `cursor_prompt.py` and local sync). `.env` is gitignored.
+
+```bash
+cp .env.example .env
+# edit .env — DSC team ID; prefix Linear titles with [paper2ppt]
+```
 
 ### Local commands
 
@@ -485,7 +500,7 @@ Optional repository variable: `LINEAR_LABEL_IDS` (comma-separated label UUIDs fo
 npm test
 
 # Cursor handoff from a Linear issue (set LINEAR_API_KEY first)
-LINEAR_API_KEY=... LINEAR_TEAM_ID=... python .github/scripts/cursor_prompt.py P2S-12
+LINEAR_API_KEY=... LINEAR_TEAM_ID=... python .github/scripts/cursor_prompt.py DSC-12
 
 # Dry-run Linear → GitHub sync
 DRY_RUN=1 LINEAR_API_KEY=... GITHUB_TOKEN=... python .github/scripts/sync_linear_to_github.py
