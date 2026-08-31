@@ -151,7 +151,7 @@ function addTitleBlock(s, pptx, slide, theme) {
   });
 
   if (!theme.titleBar) {
-    const barY = titleY + titleH + 0.04;
+    const barY = titleY + titleH + 0.10;
     s.addShape(pptx.ShapeType.rect, {
       x: 0.5,
       y: barY,
