@@ -11,6 +11,13 @@ function bodyFont(theme) {
   return theme.bodyFontFace || theme.fontFace;
 }
 
+/** Approximate rendered text height in inches for pptxgenjs layout. */
+function estimateTextHeight(text, fontSizePt, charsPerLine) {
+  const lines = Math.max(1, Math.ceil(text.length / charsPerLine));
+  const lineH = (fontSizePt / 72) * 1.18;
+  return lines * lineH;
+}
+
 export async function fillPptxGenjs({ slides, theme, outputPath, deckDir = ".", skillRoot = "." }) {
   const pptx = new pptxgen();
   pptx.layout = "LAYOUT_16x9";
@@ -52,7 +59,7 @@ function addSlide(pptx, slide, theme, deckDir, skillRoot) {
     }
   } else if (slide.table) {
     addTable(s, slide.table, theme, bodyColor, 0.5, contentY, 9);
-  } else if (slide.bullets.length) {
+  } else if (slide.bullets.length && !slide.isLead) {
     addBullets(s, slide.bullets, theme, bodyColor, 0.5, contentY, 9);
   }
 
@@ -82,46 +89,80 @@ function addTitleBlock(s, pptx, slide, theme) {
     return 1.35;
   }
 
-  const titleY = slide.isLead ? 1.5 : 0.45;
-  const leadTitleH = slide.isLead
-    ? Math.min(3.4, 0.5 + Math.ceil(slide.title.length / 46) * 0.48)
-    : 0.9;
+  if (slide.isLead) {
+    const titleY = 2.15;
+    const leadFontSize = theme.leadTitleSize || 36;
+    const leadTitleH = estimateTextHeight(slide.title, leadFontSize, 42);
+    s.addText(slide.title, {
+      x: 0.5,
+      y: titleY,
+      w: 9,
+      h: leadTitleH,
+      fontFace: titleFont(theme),
+      fontSize: leadFontSize,
+      bold: false,
+      color: theme.titleColor,
+      valign: "top",
+    });
+
+    let y = titleY + leadTitleH + 0.55;
+    if (slide.subtitle) {
+      s.addText(slide.subtitle, {
+        x: 0.5,
+        y,
+        w: 9,
+        h: 0.45,
+        fontFace: bodyFont(theme),
+        fontSize: theme.subtitleSize,
+        color: theme.subtitleColor,
+        valign: "top",
+      });
+      y += 0.5;
+    }
+    for (const line of slide.bullets || []) {
+      s.addText(line, {
+        x: 0.5,
+        y,
+        w: 9,
+        h: 0.35,
+        fontFace: bodyFont(theme),
+        fontSize: (theme.subtitleSize || 18) - 1,
+        color: theme.subtitleColor,
+        valign: "top",
+      });
+      y += 0.38;
+    }
+    return y;
+  }
+
+  const titleY = 0.45;
+  const titleFontSize = theme.titleSize || 28;
+  const titleH = estimateTextHeight(slide.title, titleFontSize, 48);
   s.addText(slide.title, {
     x: 0.5,
     y: titleY,
     w: 9,
-    h: slide.isLead ? leadTitleH : 0.9,
+    h: titleH,
     fontFace: titleFont(theme),
-    fontSize: slide.isLead ? theme.leadTitleSize : theme.titleSize,
+    fontSize: titleFontSize,
     bold: false,
     color: theme.titleColor,
     valign: "top",
   });
 
-  if (!slide.isLead && !theme.titleBar) {
+  if (!theme.titleBar) {
+    const barY = titleY + titleH + 0.04;
     s.addShape(pptx.ShapeType.rect, {
       x: 0.5,
-      y: 1.35,
+      y: barY,
       w: 9,
       h: 0.05,
       fill: { color: theme.accentColor },
     });
+    return barY + 0.17;
   }
 
-  let y = slide.isLead ? titleY + leadTitleH + 0.35 : 1.55;
-  if (slide.subtitle) {
-    s.addText(slide.subtitle, {
-      x: 0.5,
-      y,
-      w: 9,
-      h: 0.5,
-      fontFace: bodyFont(theme),
-      fontSize: theme.subtitleSize,
-      color: theme.subtitleColor,
-    });
-    y += 0.55;
-  }
-  return y;
+  return titleY + titleH + 0.2;
 }
 
 function addTable(s, table, theme, bodyColor, x, y, w) {
@@ -188,7 +229,7 @@ function addFooter(s, text, theme, isLead) {
     h: 0.3,
     fontFace: bodyFont(theme),
     fontSize: 11,
-    color: isLead ? "CBD5E1" : theme.subtitleColor || "94A3B8",
+    color: isLead ? (theme.subtitleColor || "64748B") : theme.subtitleColor || "94A3B8",
     valign: "bottom",
   });
 }
