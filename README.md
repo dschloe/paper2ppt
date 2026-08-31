@@ -1,54 +1,54 @@
 # paper-to-slides
 
-**Cursor 스킬** — PPTX 양식 + 논문 PDF → 편집 가능한 슬라이드.
+**Cursor skill** — PPTX template + paper PDF → editable slides.
 
 ```
-template.pptx  +  paper.pdf  →  Cursor 채팅  →  deck-editable.pptx
+template.pptx  +  paper.pdf  →  Cursor chat  →  deck-editable.pptx
 ```
 
-한글·영어 논문 모두 지원.
+Supports papers in English and Korean.
 
 ---
 
-## 목차
+## Table of contents
 
-- [개요](#개요)
-- [설치](#설치)
-- [빠른 시작 (3단계)](#빠른-시작-3단계)
-- [사용 메뉴얼](#사용-메뉴얼)
-  - [1. PPT 양식 등록](#1-ppt-양식-등록)
-  - [2. Cursor에서 변환](#2-cursor에서-변환)
-  - [3. 결과물](#3-결과물)
-  - [4. 직접 빌드 (터미널)](#4-직접-빌드-터미널)
-  - [5. 수정하기](#5-수정하기)
-  - [6. 이미지와 표](#6-이미지와-표)
-  - [7. 인용 (in-text citation)](#7-인용-in-text-citation)
-  - [8. 타이틀 슬라이드·HTML 미리보기](#8-타이틀-슬라이드html-미리보기)
-  - [9. 폰트 (OS 설치 글꼴)](#9-폰트-os-설치-글꼴)
-- [내장 템플릿](#내장-템플릿)
-- [커스텀 템플릿 만들기](#커스텀-템플릿-만들기)
-- [출력 형식 비교](#출력-형식-비교)
-- [샘플 테스트](#샘플-테스트)
-- [프로젝트 구조](#프로젝트-구조)
-- [추가 문서](#추가-문서)
-- [Cursor 마켓플레이스](#cursor-마켓플레이스)
-- [자주 묻는 질문](#자주-묻는-질문)
+- [Overview](#overview)
+- [Installation](#installation)
+- [Quick start (3 steps)](#quick-start-3-steps)
+- [User manual](#user-manual)
+  - [1. Register a PPT template](#1-register-a-ppt-template)
+  - [2. Convert in Cursor](#2-convert-in-cursor)
+  - [3. Output files](#3-output-files)
+  - [4. Build from the terminal](#4-build-from-the-terminal)
+  - [5. Editing](#5-editing)
+  - [6. Images and tables](#6-images-and-tables)
+  - [7. In-text citations](#7-in-text-citations)
+  - [8. Title slide & HTML preview](#8-title-slide--html-preview)
+  - [9. Fonts (OS-installed)](#9-fonts-os-installed)
+- [Built-in templates](#built-in-templates)
+- [Create a custom template](#create-a-custom-template)
+- [Output format comparison](#output-format-comparison)
+- [Sample test](#sample-test)
+- [Project structure](#project-structure)
+- [Additional docs](#additional-docs)
+- [Cursor Marketplace](#cursor-marketplace)
+- [FAQ](#faq)
 
 ---
 
-## 개요
+## Overview
 
-| 입력 | 출력 |
+| Input | Output |
 |------|------|
-| 논문 PDF (또는 arXiv 링크) | `deck-editable.pptx` — PowerPoint에서 **텍스트 직접 편집 가능** |
-| PPTX 양식 (`template.pptx`) | `deck.md` — 슬라이드 내용 원본 |
-| (선택) HTML 미리보기 | `deck.html` — 브라우저 발표용 |
+| Paper PDF (or arXiv link) | `deck-editable.pptx` — **directly editable text** in PowerPoint |
+| PPTX template (`template.pptx`) | `deck.md` — slide content source |
+| (optional) HTML preview | `deck.html` — present in the browser |
 
-Python 앱이 아닙니다. **Cursor 에이전트**가 논문을 읽고, 템플릿 규칙에 맞춰 슬라이드를 만듭니다.
+This is not a Python app. A **Cursor agent** reads the paper and writes slides following template rules.
 
 ---
 
-## 설치
+## Installation
 
 ```bash
 git clone https://github.com/dschloe/paper2ppt.git
@@ -56,138 +56,134 @@ cp -r paper2ppt ~/.cursor/skills/paper-to-slides
 cd ~/.cursor/skills/paper-to-slides && npm install
 ```
 
-HTML 미리보기가 필요하면 (선택):
+For HTML preview (optional):
 
 ```bash
 npm install -g @marp-team/marp-cli
 ```
 
-Cursor를 재시작하거나 새 채팅을 열면 스킬이 자동으로 인식됩니다.
+Restart Cursor or open a new chat — the skill is picked up automatically.
 
 ---
 
-## 빠른 시작 (3단계)
+## Quick start (3 steps)
 
-### ① 양식 등록 (처음 한 번)
+### ① Register a template (once)
 
 ```bash
 node scripts/import_pptx_template.mjs ~/my-template.pptx --name my-style
 ```
 
-내장 템플릿만 쓸 거면 이 단계는 건너뛰고 `academic`을 쓰면 됩니다.
+Skip this if you only use built-in templates — start with `academic`.
 
-### ② Cursor 채팅
+### ② Cursor chat
 
 ```
-my-style 템플릿으로 이 논문 7장 슬라이드 만들어줘
+Make a 7-slide deck from this paper using the my-style template.
 ```
 
-PDF를 채팅에 첨부하거나, 파일 경로·arXiv 링크를 붙여넣으세요.
+Attach a PDF, paste a file path, or paste an arXiv link.
 
-### ③ 결과 확인
+### ③ Check the result
 
-에이전트가 `deck-editable.pptx`를 만들어 줍니다. PowerPoint에서 바로 열어 편집할 수 있습니다.
+The agent produces `deck-editable.pptx`. Open it in PowerPoint and edit directly.
 
 ---
 
-## 사용 메뉴얼
+## User manual
 
-### 1. PPT 양식 등록
+### 1. Register a PPT template
 
-회사·학교에서 쓰는 PPT 양식이 있으면 등록합니다.
+If you have a company or school PPT format, register it:
 
 ```bash
 node scripts/import_pptx_template.mjs ~/Downloads/my-format.pptx --name my-style
 ```
 
-생성되는 폴더:
+Created folder:
 
 ```
 templates/my-style/
-├── template.pptx   # 당신의 양식 (복사본)
-├── pptx.json       # 색상·폰트 자동 추출
-└── template.yaml   # 슬라이드 구성 (7장 기본)
+├── template.pptx   # your template (copy)
+├── pptx.json       # colors & fonts (auto-extracted)
+└── template.yaml   # slide structure (7 slides by default)
 ```
 
-이후 채팅에서 `my-style 템플릿으로 ...`라고 지정하면 됩니다.
+Then ask in chat: `using the my-style template ...`
 
-프로젝트 기본 템플릿을 고정하려면 프로젝트 루트에 `.paper2slides` 파일을 만듭니다:
+To pin a default template for a project, create `.paper2slides` at the repo root:
 
 ```
 template: my-style
 ```
 
-### 2. Cursor에서 변환
+### 2. Convert in Cursor
 
-**한글 예시**
-
-```
-academic 템플릿으로 이 논문 슬라이드 만들어줘
-```
+**English examples**
 
 ```
-이 PDF 논문을 7장 발표자료로 요약해줘. 결과는 samples/runs/my-paper/ 에 저장해줘
-```
-
-**영어 예시**
-
-```
-summarize this PDF as slides using the academic template
+Summarize this PDF as slides using the academic template.
 ```
 
 ```
-make a 7-slide deck from this arXiv paper: https://arxiv.org/abs/2412.xxxxx
+Make a 7-slide deck from this arXiv paper: https://arxiv.org/abs/2412.xxxxx
 ```
 
-에이전트가 자동으로:
+**Korean paper, English slides**
 
-1. 논문 PDF 읽기
-2. `deck.md` 작성 (제목 → 문제 → 방법 → 결과 → 한계 → 결론)
-3. `deck-editable.pptx` 렌더링
+```
+Make slides from this Korean paper in English using the academic template.
+```
 
-### 3. 결과물
+The agent will:
 
-| 파일 | 설명 |
+1. Read the paper PDF
+2. Write `deck.md` (title → problem → method → results → limitations → conclusion)
+3. Render `deck-editable.pptx`
+
+### 3. Output files
+
+| File | Description |
 |------|------|
-| `deck-editable.pptx` | **주요 결과물** — PowerPoint·Keynote에서 텍스트·표 편집 가능 |
-| `deck.md` | 슬라이드 내용 원본 — 수정 후 재생성할 때 사용 |
-| `deck.html` | 브라우저 발표용 (빌드 시 자동 생성, `output/assets/`에 이미지 복사) |
-| `deck.pptx` | Marp 이미지 기반 PPTX (`--pptx` 옵션 시, 편집 불가) |
+| `deck-editable.pptx` | **Main output** — editable text and tables in PowerPoint / Keynote |
+| `deck.md` | Slide source — edit and rebuild |
+| `deck.html` | Browser presentation (auto-generated; images copied to `output/assets/`) |
+| `deck.pptx` | Marp image-based PPTX (`--pptx` option; not editable) |
 
-### 4. 직접 빌드 (터미널)
+### 4. Build from the terminal
 
-에이전트가 만든 `deck.md`를 직접 렌더링할 때:
+To render `deck.md` the agent wrote:
 
 ```bash
-# 편집 가능 PPTX (권장)
+# Editable PPTX (recommended)
 scripts/build_deck.sh path/to/deck.md path/to/output/deck \
   --template my-style --editable-pptx
 
-# HTML만
+# HTML only
 scripts/build_deck.sh path/to/deck.md path/to/output/deck --template academic
 
-# Marp 이미지 PPTX (편집 불가)
+# Marp image PPTX (not editable)
 scripts/build_deck.sh path/to/deck.md path/to/output/deck --template academic --pptx
 ```
 
-결과: `output/deck-editable.pptx`, `output/deck.html`, `output/assets/` (HTML용 이미지)
+Output: `output/deck-editable.pptx`, `output/deck.html`, `output/assets/` (images for HTML)
 
-### 5. 수정하기
+### 5. Editing
 
-| 바꾸고 싶은 것 | 방법 |
+| What to change | How |
 |---------------|------|
-| 슬라이드 **내용** (문구, 숫자) | `deck.md` 편집, 또는 Cursor에 *"3번 슬라이드 Method에 한 줄 추가해줘"* |
-| **색·폰트** | `templates/<id>/pptx.json` 수정 (`titleFontFace` / `bodyFontFace`), `theme.css`의 `font-family`, 또는 양식 pptx 재import |
-| **슬라이드 구성** (7장 → 10장) | `templates/<id>/template.yaml`의 `chapters` 수정 |
-| PowerPoint에서 직접 손보기 | `deck-editable.pptx` 열어서 편집 (텍스트 박스가 살아 있음) |
+| Slide **content** (wording, numbers) | Edit `deck.md`, or ask Cursor: *"Add one line to slide 3 Method"* |
+| **Colors & fonts** | Edit `templates/<id>/pptx.json` (`titleFontFace` / `bodyFontFace`), `theme.css` `font-family`, or re-import the template pptx |
+| **Structure** (7 → 10 slides) | Edit `chapters` in `templates/<id>/template.yaml` |
+| Edit directly in PowerPoint | Open `deck-editable.pptx` (text boxes are live) |
 
-내용을 크게 바꾼 뒤에는 `deck.md` 수정 → `--editable-pptx` 재실행이 가장 깔끔합니다.
+After large content changes: edit `deck.md` → re-run `--editable-pptx`.
 
-### 6. 이미지와 표
+### 6. Images and tables
 
-논문의 **표·그림**을 슬라이드에 넣을 수 있습니다.
+You can place **tables and figures** from the paper on slides.
 
-**표** — `deck.md`에 마크다운 테이블 작성 (결과 비교 슬라이드에 권장):
+**Table** — markdown table in `deck.md` (good for results slides):
 
 ```markdown
 # Key Results
@@ -198,29 +194,29 @@ scripts/build_deck.sh path/to/deck.md path/to/output/deck --template academic --
 | **Ours** | **78.9%** |
 ```
 
-**이미지** — PDF에서 그림 추출 후 슬라이드에 삽입:
+**Image** — extract from PDF, then reference in the deck:
 
 ```bash
-# poppler 필요: brew install poppler
+# requires poppler: brew install poppler
 scripts/extract_pdf_figures.sh paper.pdf samples/runs/my-run/assets/
 ```
 
-`deck.md` 예시:
+`deck.md` example:
 
 ```markdown
 <!-- layout: figure -->
-# 방법론 개요
+# Method Overview
 
 ![Figure 2](assets/fig-002.png)
 
-*출처: 논문 Figure 2*
+*Source: paper Figure 2*
 ```
 
-**표 + 이미지 나란히:**
+**Table + image side by side:**
 
 ```markdown
 <!-- layout: image-table -->
-# 실험 결과
+# Experiment Results
 
 | Method | Score |
 |---|---|
@@ -229,32 +225,37 @@ scripts/extract_pdf_figures.sh paper.pdf samples/runs/my-run/assets/
 ![width:380px](assets/fig-chart.png)
 ```
 
-Cursor 채팅: *"논문 Figure 2랑 Table 3 넣어서 슬라이드 만들어줘"*
+In Cursor: *"Add paper Figure 2 and Table 3 to the deck."*
 
-자세한 문법: [`references/marp-syntax.md`](references/marp-syntax.md)
+Syntax details: [`references/marp-syntax.md`](references/marp-syntax.md)
 
-### 7. 인용 (in-text citation)
+### 7. In-text citations
 
-이론·선행연구·통계를 인용할 때 슬라이드 불릿 끝에 **(저자, 연도)** 형식을 붙입니다.
+Cite theories, prior work, and statistics with **(Author, Year)** at the end of bullets:
 
 ```markdown
-- **RAG**로 환각 감소 (Patrick Lewis et al., 2021)
-- Spence (1973)은 학력을 노동시장 신호로 본다
-- 2023년 졸업자 취업률 70.3% (교육부, 2023)
+- **RAG** reduces hallucinations (Patrick Lewis et al., 2021)
+- Spence (1973) treats education as a labor-market signal
+- Graduate employment rate 70.3% in 2023 (Ministry of Education, 2023)
 ```
 
-- 발표 논문 저자는 **풀네임** — `Afzal et al.` 대신 `Anum Afzal, Alexander Kowsik, Rajna Fani, & Florian Matthes`
-- 논문 **본인 그림·표**: `*출처: Anum Afzal, Alexander Kowsik, Rajna Fani, & Florian Matthes (2024), Figure 2*`
-- 마지막 슬라이드에 **주요 참고문헌** 5~8개 요약 가능
-- Cursor 채팅: *"in-text citation 추가해줘"*
+- **Presenting authors:** full names — `Anum Afzal, Alexander Kowsik, Rajna Fani, & Florian Matthes`, not `Afzal et al.`
+- **Figures/tables from the current paper:** `*Source: Anum Afzal, Alexander Kowsik, Rajna Fani, & Florian Matthes (2024), Figure 2*`
+- Optional final slide: condensed reference list (5–8 sources)
+- In Cursor: *"Add in-text citations."*
 
-### 8. 타이틀 슬라이드·HTML 미리보기
+### 8. Title slide & HTML preview
 
-**타이틀 슬라이드** 권장 형식:
+**Recommended title slide** (`deck.md`):
 
 ```markdown
+---
+marp: true
+paginate: true
+footer: 'https://arxiv.org/abs/2407.05925 · https://aclanthology.org/2024.dash-1.2/'
+---
+
 <!-- _class: lead -->
-<!-- _footer: "https://arxiv.org/abs/2407.05925 · https://aclanthology.org/2024.dash-1.2/" -->
 
 # Towards Optimizing and Evaluating a Retrieval Augmented QA Chatbot using LLMs with Human-in-the-Loop (2024)
 
@@ -263,144 +264,145 @@ Cursor 채팅: *"논문 Figure 2랑 Table 3 넣어서 슬라이드 만들어줘"
 ACL DaSH 2024 · Human-in-the-Loop on industrial HR data
 ```
 
-- `#` 제목: 논문 **전체 제목 + (연도)** — 줄임말 대신 정식 제목
-- `##` 저자: **풀네임** (제목 아래 별도 줄)
-- `<!-- _footer: ... -->`: 하단 footnote에 arXiv·ACL 등 **논문 링크**
+- `#` title: **full paper title + (year)** — not a shortened alias
+- `##` authors: **full names** on a separate line below the title
+- `footer:` in frontmatter: **paper ref links on every slide** (HTML + editable PPTX)
+- PPTX also shows **page numbers** bottom-right on every slide
 
-**HTML 미리보기** (`deck.html`을 Chrome에서 열 때):
+**HTML preview** (open `deck.html` in Chrome):
 
-| 기능 | 설명 |
+| Feature | Description |
 |------|------|
-| 이미지 | `build_deck.sh`가 `assets/`를 `output/assets/`로 복사 — 경로 깨짐 방지 |
-| 제목 고정 | 내용이 긴 슬라이드에서 스크롤 시 `#` 제목·파란 구분선이 상단에 고정 |
+| Images | `build_deck.sh` copies `assets/` → `output/assets/` so paths work |
+| Sticky title | On long slides, `#` heading and blue rule stay pinned while scrolling |
 
-`output/deck.html`을 열 때는 **강력 새로고침**(Cmd+Shift+R)을 권장합니다.
+Use a **hard refresh** (Cmd+Shift+R) when reopening `output/deck.html`.
 
-### 9. 폰트 (OS 설치 글꼴)
+### 9. Fonts (OS-installed)
 
-폰트 **파일 경로**가 아니라, macOS·Windows에 **이미 설치된 글꼴 이름**을 지정합니다.
+Specify fonts by **installed font name**, not file path (macOS / Windows).
 
-| 파일 | 설정 예시 (`my-style`) |
+| File | Example (`my-style`) |
 |------|------------------------|
-| `templates/<id>/theme.css` | `section h1` → 제목, `section` → 본문 `font-family` |
+| `templates/<id>/theme.css` | `section h1` → title, `section` → body `font-family` |
 | `templates/<id>/pptx.json` | `"titleFontFace"`, `"bodyFontFace"` |
 
-기본 `my-style` 예시:
+Default `my-style`:
 
-- 제목: **S-Core Dream 5 Medium** (에스코어 드림 5 Medium)
-- 본문: **S-Core Dream 4 Regular** (에스코어 드림 4 Regular)
+- Title: **S-Core Dream 5 Medium**
+- Body: **S-Core Dream 4 Regular**
 
-Font Book(맥)에서 보이는 **정확한 이름**을 써야 합니다. 다른 PC에서도 같은 폰트가 설치되어 있어야 PPTX·HTML이 동일하게 보입니다.
+Use the **exact name** from Font Book (Mac) or Font settings (Windows). Other machines need the same fonts installed for matching PPTX/HTML.
 
-Cursor 채팅 예시: *"제목은 에스코어 Medium, 본문은 에스코어 Regular로 해줘"*
+In Cursor: *"Use S-Core Medium for titles and S-Core Regular for body text."*
 
 ---
 
-## 내장 템플릿
+## Built-in templates
 
-| ID | 용도 | 특징 |
+| ID | Use case | Notes |
 |----|------|------|
-| `academic` | 논문 리뷰, 랩 미팅 (기본) | 흰 배경, 파란 악센트, 7장 구성 |
-| `seminar` | 세미나·학회 발표 | 큰 글씨, 고대비 헤더 |
-| `my-style` | 심화 발표 (20~30장) | 에스코어 드림 제목/본문, 타이틀 footnote·링크 지원 |
+| `academic` | Paper review, lab meeting (default) | White background, blue accent, 7-slide structure |
+| `seminar` | Seminar / conference talk | Large type, high-contrast header |
+| `my-style` | In-depth deck (20–30 slides) | S-Core Dream title/body, title footnote & ref links |
 
-별도 양식 없이 바로 사용:
+Use without a custom template:
 
 ```
-academic 템플릿으로 이 논문 슬라이드 만들어줘
+Make slides from this paper using the academic template.
 ```
 
 ---
 
-## 커스텀 템플릿 만들기
+## Create a custom template
 
 ```bash
-# 1) 예시 폴더 복사
+# 1) Copy the example folder
 cp -r templates/_example templates/my-style
 
-# 2) my-style/template.pptx 를 본인 양식으로 교체
+# 2) Replace my-style/template.pptx with your format
 
-# 3) import (색/폰트 추출 + template.yaml 생성)
+# 3) Import (extract colors/fonts + generate template.yaml)
 node scripts/import_pptx_template.mjs templates/my-style/template.pptx --name my-style
 
-# 4) 필요하면 template.yaml 에서 슬라이드 제목·개수 조정
+# 4) Adjust slide titles and count in template.yaml if needed
 ```
 
-자세한 템플릿 스펙: [`references/template-system.md`](references/template-system.md)
+Template spec: [`references/template-system.md`](references/template-system.md)
 
 ---
 
-## 출력 형식 비교
+## Output format comparison
 
-| 형식 | 명령 | PowerPoint 편집 | 용도 |
+| Format | Command | Editable in PowerPoint | Use case |
 |------|------|-----------------|------|
-| `deck-editable.pptx` | `--editable-pptx` | ✅ 텍스트·표 편집 가능 | **일반 사용 (권장)** |
-| `deck.html` | (기본 포함) | — | 브라우저 발표, 공유 |
-| `deck.pptx` | `--pptx` | ❌ 슬라이드가 이미지 | 빠른 공유용 |
+| `deck-editable.pptx` | `--editable-pptx` | Yes — text & tables | **Default (recommended)** |
+| `deck.html` | (included by default) | — | Browser presentation, sharing |
+| `deck.pptx` | `--pptx` | No — slides are images | Quick share |
 
 ---
 
-## 샘플 테스트
+## Sample test
 
-repo에 포함된 샘플 논문으로 테스트:
+Test with the sample paper in the repo:
 
 ```bash
-# 영어 논문 30장 (my-style, Afzal et al. 2024 HR RAG)
+# English paper, 30 slides (my-style, Afzal et al. 2024 HR RAG)
 scripts/build_deck.sh \
   samples/runs/my-style-afzal-30/deck.md \
   samples/runs/my-style-afzal-30/output/deck \
   --template my-style --editable-pptx
 
-# 영어 논문 7장 (academic)
+# English paper, 7 slides (academic)
 scripts/build_deck.sh \
   samples/runs/academic-afzal-hr-rag/deck.md \
   samples/runs/academic-afzal-hr-rag/output/deck \
   --template academic --editable-pptx
 ```
 
-PDF에서 그림 추출 (선택):
+Extract figures from PDF (optional):
 
 ```bash
-brew install poppler   # 최초 1회
+brew install poppler   # once
 scripts/extract_pdf_figures.sh \
   "samples/papers/Afzal et al. - 2024 - Towards Optimizing and Evaluating a Retrieval Augmented QA Chatbot using LLMs with Human-in-the-Loop.pdf" \
   samples/runs/my-style-afzal-30/assets/
 ```
 
-샘플 구조:
+Sample layout:
 
 ```
 samples/
-├── papers/              # 테스트용 PDF (git 제외)
+├── papers/              # test PDFs (gitignored)
 └── runs/<name>/
-    ├── source.md        # 사용한 논문 정보·arXiv 링크
-    ├── deck.md          # 슬라이드 원본
-    ├── assets/          # PDF에서 추출한 fig-*.png
+    ├── source.md        # paper metadata & arXiv link
+    ├── deck.md          # slide source
+    ├── assets/          # fig-*.png extracted from PDF
     └── output/
         ├── deck.html
         ├── deck-editable.pptx
-        └── assets/      # HTML 미리보기용 (빌드 시 자동 복사)
+        └── assets/      # copied for HTML preview on build
 ```
 
-자세한 내용: [`samples/README.md`](samples/README.md)
+More: [`samples/README.md`](samples/README.md)
 
 ---
 
-## 프로젝트 구조
+## Project structure
 
 ```
 paper-to-slides/
-├── SKILL.md                    # Cursor 에이전트 워크플로
-├── README.md                   # 이 문서 (사용 메뉴얼)
-├── MARKETPLACE.md              # 마켓플레이스 제출 가이드
-├── .cursor-plugin/             # Cursor 마켓플레이스 매니페스트
-├── assets/logo.svg             # 마켓플레이스 아이콘
+├── SKILL.md                    # Cursor agent workflow
+├── README.md                   # this file (user manual)
+├── MARKETPLACE.md              # marketplace submission guide
+├── .cursor-plugin/             # Cursor marketplace manifest
+├── assets/logo.svg             # marketplace icon
 ├── templates/
-│   ├── academic/               # 기본 템플릿
+│   ├── academic/               # default template
 │   ├── seminar/
-│   ├── my-style/               # 에스코어 폰트·20~30장 심화 구성
-│   ├── _example/               # 커스텀 템플릿 시작점
-│   └── <your-name>/            # import로 생성
+│   ├── my-style/               # S-Core fonts, 20–30 slide structure
+│   ├── _example/               # custom template starter
+│   └── <your-name>/            # created by import
 │       ├── template.pptx
 │       ├── pptx.json
 │       └── template.yaml
@@ -409,86 +411,89 @@ paper-to-slides/
 │   ├── build_editable_pptx.mjs
 │   └── build_deck.sh
 ├── references/
-│   ├── quickstart.md           # README 요약본
+│   ├── quickstart.md           # README summary
 │   ├── template-system.md
 │   └── marp-syntax.md
-└── samples/                    # 테스트 예시
+└── samples/                    # test examples
 ```
 
 ---
 
-## 추가 문서
+## Additional docs
 
-| 문서 | 대상 | 내용 |
+| Doc | Audience | Content |
 |------|------|------|
-| **README.md** (이 파일) | 사용자 | 설치·사용·수정 전체 메뉴얼 |
-| [`references/quickstart.md`](references/quickstart.md) | 사용자 | 빠른 참조 요약 |
-| [`references/template-system.md`](references/template-system.md) | 고급 / 에이전트 | 템플릿 파일 규격 |
-| [`references/marp-syntax.md`](references/marp-syntax.md) | 고급 | `deck.md` 문법 |
-| [`SKILL.md`](SKILL.md) | Cursor 에이전트 | 자동 변환 워크플로 |
-| [`samples/README.md`](samples/README.md) | 개발자 | 샘플 테스트 방법 |
+| **README.md** (this file) | Users | Install, use, edit |
+| [`references/quickstart.md`](references/quickstart.md) | Users | Quick reference |
+| [`references/template-system.md`](references/template-system.md) | Advanced / agent | Template file spec |
+| [`references/marp-syntax.md`](references/marp-syntax.md) | Advanced | `deck.md` syntax |
+| [`SKILL.md`](SKILL.md) | Cursor agent | Conversion workflow |
+| [`samples/README.md`](samples/README.md) | Developers | Sample testing |
 
 ---
 
-## Cursor 마켓플레이스
+## Cursor Marketplace
 
-| 방법 | 심사 | 지금 가능? |
+| Method | Review | Available now? |
 |------|------|-----------|
-| `~/.cursor/skills/` 복사 | 없음 | ✅ |
-| [Cursor Marketplace](https://cursor.com/marketplace/publish) | 수동 심사 | ✅ 제출 준비 완료 |
+| Copy to `~/.cursor/skills/` | None | Yes |
+| [Cursor Marketplace](https://cursor.com/marketplace/publish) | Manual review | Ready to submit |
 
-### 제출 방법
+### How to submit
 
-1. 이 저장소를 GitHub에 push (`https://github.com/dschloe/paper2ppt`)
-2. [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) 에서 repo URL 제출
-3. 심사 통과 후 **Customize → Marketplace** 에서 설치
+1. Push this repo to GitHub (`https://github.com/dschloe/paper2ppt`)
+2. Submit the repo URL at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish)
+3. After approval, install via **Customize → Marketplace**
 
-로컬 테스트·체크리스트: [`MARKETPLACE.md`](MARKETPLACE.md)
+Local test & checklist: [`MARKETPLACE.md`](MARKETPLACE.md)
 
-### 플러그인 구성
+### Plugin layout
 
-| 파일 | 역할 |
+| File | Role |
 |------|------|
-| `.cursor-plugin/plugin.json` | 마켓플레이스 매니페스트 |
-| `SKILL.md` | 에이전트 워크플로 (루트 스킬) |
-| `assets/logo.svg` | 마켓플레이스 아이콘 |
-| `templates/`, `scripts/`, `references/` | 템플릿·빌드·문법 |
+| `.cursor-plugin/plugin.json` | Marketplace manifest |
+| `SKILL.md` | Agent workflow (root skill) |
+| `assets/logo.svg` | Marketplace icon |
+| `templates/`, `scripts/`, `references/` | Templates, build, syntax |
 
 ---
 
-## 자주 묻는 질문
+## FAQ
 
-**Q. Python 설치가 필요한가요?**  
-아니요. Node.js만 있으면 됩니다 (`npm install`).
+**Q. Do I need Python?**  
+No. Node.js is enough (`npm install`).
 
-**Q. 논문이 한글인데 슬라이드는 영어로 만들 수 있나요?**  
-네. 채팅에서 *"영어로 슬라이드 만들어줘"*라고 요청하면 됩니다.
+**Q. My paper is in Korean — can slides be in English?**  
+Yes. Ask in chat: *"Make the slides in English."*
 
-**Q. PPTX에서 글자를 직접 고칠 수 있나요?**  
-`deck-editable.pptx`는 가능합니다. `deck.pptx`(Marp)는 이미지라 편집이 어렵습니다.
+**Q. Can I edit text directly in the PPTX?**  
+Yes with `deck-editable.pptx`. `deck.pptx` (Marp) is image-based and hard to edit.
 
-**Q. 내 회사 PPT 양식 그대로 쓸 수 있나요?**  
-**부분적으로 가능합니다.** PowerPoint 파일을 그대로 “슬라이드 복사”하는 방식은 아니고, **양식에서 색·폰트를 읽어** 새 슬라이드를 같은 톤으로 만듭니다.
+**Q. Can I use my company PPT template as-is?**  
+**Partially.** The skill does not copy slides from your PowerPoint file; it **reads colors and fonts** from the template and builds new slides in that tone.
 
-1. **등록** — 회사 `.pptx`를 import합니다.
+1. **Register** — import your company `.pptx`:
    ```bash
    node scripts/import_pptx_template.mjs ~/company-template.pptx --name company
    ```
-2. **자동 추출되는 것** — PPT 테마에서 **글꼴, 제목/본문 색, 강조색, 표 헤더 색** 등이 `templates/company/pptx.json`에 저장됩니다. 원본 파일은 `templates/company/template.pptx`에 보관됩니다.
-3. **생성되는 것** — 논문 내용은 `template.yaml`의 슬라이드 구조(제목·불릿·표 등)에 맞춰 `deck-editable.pptx`로 출력됩니다. **텍스트 박스는 편집 가능**합니다.
-4. **그대로 안 되는 것** — 회사 로고 위치, 슬라이드 마스터 모양, 도형·배경 이미지, 정확한 여백/박스 배치는 **자동 복제되지 않습니다.** (향후 `template.pptx` 슬라이드를 직접 채우는 방식으로 확장 예정)
-5. **미세 조정** — 색이 어긋나면 `templates/company/pptx.json`을 직접 수정하거나, 양식 pptx를 고친 뒤 import를 다시 실행하세요.
+2. **Auto-extracted** — font, title/body colors, accent, table header colors → `templates/company/pptx.json`. Original file kept at `templates/company/template.pptx`.
+3. **Generated** — paper content is laid out per `template.yaml` into `deck-editable.pptx` with **editable text boxes**.
+4. **Not replicated** — logo placement, slide master shapes, background images, exact margins/box positions. (Future: fill slides directly from `template.pptx`.)
+5. **Tweaks** — edit `templates/company/pptx.json` or fix the source pptx and re-import.
 
-정리: **브랜드 색·폰트는 반영**, **레이아웃은 스킬 기본 구조 + 편집 가능 PPTX**입니다. 픽셀 단위 동일 양식이 필요하면 생성 후 PowerPoint에서 로고·마스터를 수동으로 맞추는 것이 가장 빠릅니다.
+Summary: **brand colors & fonts yes**; **layout = skill structure + editable PPTX**. For pixel-perfect masters, adjust logo/master manually in PowerPoint after generation.
 
-**Q. arXiv 링크만 주면 되나요?**  
-네. 채팅에 링크를 붙이고 변환을 요청하면 됩니다.
+**Q. Is an arXiv link enough?**  
+Yes. Paste the link in chat and ask for conversion.
 
-**Q. 슬라이드 장수를 바꾸고 싶어요.**  
-*"30장으로 만들어줘"* 또는 `template.yaml`의 `chapters`를 수정하세요. `deck.md` 장수는 템플릿 기본값(7·20장)보다 늘어날 수 있습니다.
+**Q. How do I change the slide count?**  
+Ask for *"30 slides"* or edit `chapters` in `template.yaml`. `deck.md` can exceed the template default (7 or 20 slides).
 
-**Q. HTML에서 이미지가 안 보여요.**  
-`deck.html`과 같은 폴더에 `output/assets/`가 있어야 합니다. `build_deck.sh`를 다시 실행하면 자동 복사됩니다. `deck.md`가 있는 `assets/`가 아닌 **`output/assets/`**를 Chrome이 참조합니다.
+**Q. Images don't show in HTML.**  
+`output/assets/` must sit next to `deck.html`. Re-run `build_deck.sh` — it copies assets automatically. Chrome loads from **`output/assets/`**, not the run folder's `assets/`.
 
-**Q. 제목 슬라이드에서 저자가 제목과 겹쳐요.**  
-긴 제목은 여러 줄로 나뉩니다. `my-style` 템플릿은 제목·저자 간격을 넓혀 두었습니다. 그래도 겹치면 `theme.css`의 `section.lead h1` `margin-bottom` 또는 PPTX `leadTitleSize`를 조정하세요.
+**Q. Authors overlap the title on the title slide.**  
+Long titles wrap to multiple lines. `my-style` adds spacing between title and authors. If needed, adjust `section.lead h1` `margin-bottom` in `theme.css` or `leadTitleSize` in PPTX theme.
+
+**Q. How do I show paper links on every slide?**  
+Add `footer:` with arXiv/ACL URLs in `deck.md` frontmatter — see [Title slide & HTML preview](#8-title-slide--html-preview).
