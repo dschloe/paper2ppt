@@ -9,7 +9,7 @@
     "test": "node --test tests/*.mjs"
   },
   "dependencies": {
-    "fast-xml-parser": "^5.11.1",
+    "fast-xml-parser": "^5.11.2",
     "pptx-automizer": "^0.9.3",
     "pptxgenjs": "^4.0.1"
   }
