@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "fast-xml-parser": "^5.11.1",
-    "pptx-automizer": "^0.9.3",
+    "pptx-automizer": "^0.9.4",
     "pptxgenjs": "^4.0.1"
   }
 }
